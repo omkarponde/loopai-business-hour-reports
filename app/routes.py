@@ -14,7 +14,7 @@ app_router = APIRouter(
 )
 
 
-@app_router.post("/trigger_report")
+@app_router.post("/trigger_report", status_code=status.HTTP_200_OK)
 async def trigger_report(background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     report_id = uuid.uuid4()
     new_report = Report(id=report_id, status='Running')
