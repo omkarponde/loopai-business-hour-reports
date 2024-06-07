@@ -1,0 +1,8 @@
+fastapi
+starlette
+uvicorn
+psycopg2-binary
+SQLAlchemy
+pydantic
+pydantic[dotenv]
+pandas
