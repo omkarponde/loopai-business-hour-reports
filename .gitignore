@@ -1,0 +1,4 @@
+app/reports/
+.env
+# Ignore specific file types
+*.csv
