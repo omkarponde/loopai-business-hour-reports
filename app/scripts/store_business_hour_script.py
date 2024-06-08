@@ -10,11 +10,10 @@ sys.path.append(str(parent_dir))
 import pandas as pd
 from models import StoreBusinessHour
 from scripts.scripts_db import get_scripts_db
-
-FILENAME = 'Menu hours.csv'
+from constants import STORE_BUSINESS_HOUR_CSV
 
 BATCH_SIZE = 10000
-csv_file_path = parent_dir / 'data' / FILENAME
+csv_file_path = parent_dir / 'data' / STORE_BUSINESS_HOUR_CSV
 
 chunks = pd.read_csv(csv_file_path, chunksize=BATCH_SIZE)
 

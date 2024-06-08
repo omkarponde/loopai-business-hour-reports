@@ -9,10 +9,10 @@ sys.path.append(str(parent_dir))
 import pandas as pd
 from models import StoreActivity
 from scripts.scripts_db import get_scripts_db
+from constants import STORE_ACTIVITY_CSV
 
-FILENAME = 'store status.csv'
 BATCH_SIZE = 10000
-csv_file_path = parent_dir / 'data' / FILENAME
+csv_file_path = parent_dir / 'data' / STORE_ACTIVITY_CSV
 
 chunks = pd.read_csv(csv_file_path, chunksize=BATCH_SIZE)
 

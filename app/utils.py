@@ -1,6 +1,7 @@
 import os
 import csv
 import uuid
+import logging
 from collections import defaultdict
 from datetime import datetime, timedelta, time
 from time import time as time2
@@ -11,12 +12,13 @@ from sqlalchemy.exc import NoResultFound
 
 from db import Session
 from models import Report, StoreActivity, StoreBusinessHour, StoreTimezone
+from constants import DEFAULT_TIMEZONE, STATUS_COMPLETED, FULL_DAY, REPORT_FOLDER
 from fastapi import HTTPException, status
 
-# Constants
-DEFAULT_TIMEZONE = 'America/Chicago'
-FULL_DAY = [(time(0, 0), time(23, 59, 59))]
-REPORT_FOLDER = 'reports'
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def get_store_timezones(db: Session) -> dict:
@@ -354,15 +356,13 @@ def generate_report(report_id: uuid.UUID, db: Session):
         if is_within_business_hours(activity.store_id, activity.timestamp_utc, business_hours)
     ]
 
-    print(f"{len(activities)} ------- {len(activities_within_business_hours)}")
-
     # Start generating the csv report.
     generate_csv(report_id, start_time, end_time, activities_within_business_hours, business_hours)
 
-    report.status = 'Completed'
+    report.status = STATUS_COMPLETED
     db.commit()
 
     end_report_generation = time2()
 
-    print(f"Timestamp range: {start_time} -- -- -- {end_time}")
-    print(f"Time taken to generate report: {end_report_generation - start_report_generation} seconds")
+    logger.info(f"Timestamp range: {start_time} -- -- -- {end_time}")
+    logger.info(f"Time taken to generate report: {end_report_generation - start_report_generation} seconds")

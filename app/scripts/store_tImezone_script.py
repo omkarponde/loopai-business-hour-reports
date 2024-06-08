@@ -9,10 +9,9 @@ sys.path.append(str(parent_dir))
 
 from models import StoreTimezone
 from scripts.scripts_db import get_scripts_db
+from constants import STORE_TIMEZONE_CSV
 
-FILENAME = 'bq-results-20230125-202210-1674678181880.csv'
-
-csv_file_path = parent_dir / 'data' / FILENAME
+csv_file_path = parent_dir / 'data' / STORE_TIMEZONE_CSV
 
 BATCH_SIZE = 10000
 

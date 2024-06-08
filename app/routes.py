@@ -1,4 +1,5 @@
 from fastapi import APIRouter, status, Depends, BackgroundTasks
+from constants import REPORT_FOLDER, STATUS_RUNNING, STATUS_COMPLETED
 from dependencies import get_db
 from db import Session
 from fastapi.exceptions import HTTPException
@@ -17,7 +18,7 @@ app_router = APIRouter(
 @app_router.post("/trigger_report", status_code=status.HTTP_200_OK)
 async def trigger_report(background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
     report_id = uuid.uuid4()
-    new_report = Report(id=report_id, status='Running')
+    new_report = Report(id=report_id, status=STATUS_RUNNING)
     db.add(new_report)
     db.commit()
     db.refresh(new_report)
@@ -40,12 +41,12 @@ async def get_report(report_id: str, db: Session = Depends(get_db)):
             detail="Report not found."
         )
 
-    if report.status == 'Running':
+    if report.status == STATUS_RUNNING:
         return {
-            "Report status": "Running"
+            "Report status": STATUS_RUNNING
         }
-    elif report.status == 'Completed':
-        folder_name = 'reports'
+    elif report.status == STATUS_COMPLETED:
+        folder_name = REPORT_FOLDER
         csv_filename = f'store_activity_report_{report_id}.csv'
         csv_filepath = os.path.join(folder_name, csv_filename)
 
