@@ -73,7 +73,7 @@ This project uses a PostgreSQL database.
     ```
 6. After the data import is complete, navigate back to the 'app' directory and start the Uvicorn server:
 
-         ```bash
+   ```bash
     uvicorn main:app --reload
 
     ```
