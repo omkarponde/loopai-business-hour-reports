@@ -42,7 +42,7 @@ This project uses a PostgreSQL database.
 1. Create a .env file in the project directory and specify your database URI in it:
 
     ```bash
-    postgresql://username:password@host:port/database
+    DATABASE_URI=postgresql://username:password@host:port/database
 
     ```
 
